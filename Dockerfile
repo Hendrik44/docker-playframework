@@ -76,7 +76,8 @@ RUN set -ex && \
 RUN mkdir -p /app
 
 RUN apk upgrade \
-      && apk --no-cache add curl unzip
+      && apk --no-cache add --virtual build-dependencies unzip \
+      && apk --no-cache add curl python
 
 ENV PLAY_VERSION 1.2.7.2
 
@@ -93,13 +94,13 @@ RUN curl --location -s https://downloads.typesafe.com/play/${PLAY_VERSION}/play-
             /opt/play-${PLAY_VERSION}/samples \
             /opt/play-${PLAY_VERSION}/support
 
-RUN apk del --purge curl unzip \
+RUN apk del --purge build-dependencies \
       && rm -fr /var/cache/apk/*
 
 ENV PATH /opt/play-${PLAY_VERSION}:$PATH
 
 WORKDIR /app
 
-# EXPOSE 9000
+EXPOSE 9000
 
 CMD ["play"]

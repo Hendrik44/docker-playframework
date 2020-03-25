@@ -4,6 +4,7 @@ services:
         image: hendrik44/docker-playframework
         hostname: play-test
         container_name: play-test
+        command: play run
         ports:
             - 9000:9000
         cap_drop:
